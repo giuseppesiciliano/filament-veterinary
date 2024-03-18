@@ -37,6 +37,12 @@ class CalendarWidget extends FullCalendarWidget
     {
         return [
             Forms\Components\TextInput::make('name'),
+            Forms\Components\Select::make('patient_id')
+                ->required()
+                ->relationship('patient', 'name')
+                    ->required()
+                    ->searchable()
+                    ->preload(),
  
             Forms\Components\Grid::make()
                 ->schema([

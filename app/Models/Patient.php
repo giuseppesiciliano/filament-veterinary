@@ -17,4 +17,9 @@ class Patient extends Model
     {
         return $this->hasMany(Treatment::class);
     }
+
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class);
+    }
 }
