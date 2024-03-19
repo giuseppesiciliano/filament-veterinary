@@ -31,6 +31,12 @@ class TreatmentsRelationManager extends RelationManager
                     ->numeric()
                     ->prefix('€')
                     ->maxValue(42949672.95),
+                Forms\Components\Select::make('doctor_id')
+                    ->required()
+                    ->relationship('doctor', 'name')
+                        ->required()
+                        ->searchable()
+                        ->preload()
             ]);
     }
 
@@ -43,6 +49,7 @@ class TreatmentsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('price')
                     ->money('EUR')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('doctor.name'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime(),
             ])
