@@ -54,10 +54,10 @@ class ViewDoctor extends ViewRecord
                                         ]),
                                         TextEntry::make('created_at')
                                             ->date("d/m/Y H:i")
-                                        ->columnSpan([
-                                            'default' => 12,
-                                            'lg' => 3
-                                        ]),
+                                            ->columnSpan([
+                                                'default' => 12,
+                                                'lg' => 3
+                                            ]),
                                         Section::make('Notes')
                                             ->schema([
                                                 TextEntry::make('notes')
@@ -77,8 +77,10 @@ class ViewDoctor extends ViewRecord
                                     ->schema([
                                         TextEntry::make('name'),
                                         TextEntry::make('patient.name'),
-                                        TextEntry::make('start'),
-                                        TextEntry::make('end'),
+                                        TextEntry::make('start')
+                                            ->date("d/m/Y H:i"),
+                                        TextEntry::make('end')
+                                            ->date("d/m/Y H:i"),
                                     ]),
                             ]),
                         Tabs\Tab::make('Tab 3')
