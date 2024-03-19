@@ -43,6 +43,12 @@ class CalendarWidget extends FullCalendarWidget
                     ->required()
                     ->searchable()
                     ->preload(),
+                Forms\Components\Select::make('doctor_id')
+                    ->required()
+                    ->relationship('doctor', 'name')
+                        ->required()
+                        ->searchable()
+                        ->preload(),
  
             Forms\Components\Grid::make()
                 ->schema([

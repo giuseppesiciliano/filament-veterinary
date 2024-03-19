@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->foreignId('patient_id')->constrained('patients')->cascadeOnDelete();
+            $table->foreignId('doctor_id')->constrained('doctors')->cascadeOnDelete();
             $table->datetime('start');
             $table->datetime('end');
             $table->timestamps();

@@ -61,6 +61,7 @@ class DoctorResource extends Resource
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])
@@ -70,6 +71,8 @@ class DoctorResource extends Resource
                 ]),
             ]);
     }
+
+    
 
     public static function getRelations(): array
     {
@@ -83,6 +86,7 @@ class DoctorResource extends Resource
         return [
             'index' => Pages\ListDoctors::route('/'),
             'create' => Pages\CreateDoctor::route('/create'),
+            'view' => Pages\ViewDoctor::route('/{record}'),
             'edit' => Pages\EditDoctor::route('/{record}/edit'),
         ];
     }
