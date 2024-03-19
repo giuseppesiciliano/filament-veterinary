@@ -7,6 +7,7 @@ use App\Filament\Resources\PatientResource\RelationManagers;
 use App\Models\Patient;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\FileUpload;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -35,6 +36,7 @@ class PatientResource extends Resource
                 Forms\Components\DatePicker::make('date_of_birth')
                     ->required()
                     ->maxDate(now()),
+                FileUpload::make('image'),
                 Forms\Components\Select::make('owner_id')
                     ->required()
                     ->relationship('owner', 'name')
