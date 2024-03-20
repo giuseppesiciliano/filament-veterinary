@@ -13,6 +13,9 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Carbon\Carbon;
+use Closure;
+
 
 class PatientResource extends Resource
 {
@@ -27,16 +30,30 @@ class PatientResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+
+                Forms\Components\Radio::make('sex')
+                    ->options([
+                        'M' => 'Male',
+                        'F' => 'Female'
+                    ]),
+
                 Forms\Components\Select::make('type')
                     ->options([
                         'cat' => 'Cat',
                         'dog' => 'Dog',
                     ])
                     ->required(),
+
+                Forms\Components\TextInput::make('microchip')
+                    ->nullable()
+                    ->maxLength(20)
+                    ->unique(),
+
                 Forms\Components\DatePicker::make('date_of_birth')
                     ->required()
+                    ->reactive()
                     ->maxDate(now()),
-                FileUpload::make('image'),
+
                 Forms\Components\Select::make('owner_id')
                     ->required()
                     ->relationship('owner', 'name')
@@ -67,8 +84,12 @@ class PatientResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('sex'),
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('date_of_birth')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('age')
+                    ->suffix(' anni')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('owner.name')
                     ->searchable(),
@@ -82,6 +103,7 @@ class PatientResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
