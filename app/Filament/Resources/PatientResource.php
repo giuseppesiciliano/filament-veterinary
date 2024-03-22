@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Carbon\Carbon;
 use Closure;
+use App\Enums\PatientSex;
 
 
 class PatientResource extends Resource
@@ -32,10 +33,7 @@ class PatientResource extends Resource
                     ->maxLength(255),
 
                 Forms\Components\Radio::make('sex')
-                    ->options([
-                        'M' => 'Male',
-                        'F' => 'Female'
-                    ]),
+                    ->options(PatientSex::class),
 
                 Forms\Components\Select::make('type')
                     ->options([
@@ -84,7 +82,8 @@ class PatientResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('sex'),
+                Tables\Columns\TextColumn::make('sex')
+                    ->badge(),
                 Tables\Columns\TextColumn::make('type'),
                 Tables\Columns\TextColumn::make('date_of_birth')
                     ->sortable(),

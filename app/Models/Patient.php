@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use App\Enums\PatientSex;
 
 class Patient extends Model
 {
@@ -31,4 +32,8 @@ class Patient extends Model
             get: fn() => Carbon::parse($this->date_of_birth)->age,
         );
     }
+
+    protected $casts = [
+        'sex' =>  PatientSex::class,
+    ];
 }
