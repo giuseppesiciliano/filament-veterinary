@@ -16,6 +16,8 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Carbon\Carbon;
 use Closure;
 use App\Enums\PatientSex;
+use App\Enums\PatientType;
+
 
 
 class PatientResource extends Resource
@@ -36,10 +38,7 @@ class PatientResource extends Resource
                     ->options(PatientSex::class),
 
                 Forms\Components\Select::make('type')
-                    ->options([
-                        'cat' => 'Cat',
-                        'dog' => 'Dog',
-                    ])
+                    ->options(PatientType::class)
                     ->required(),
 
                 Forms\Components\TextInput::make('microchip')
@@ -84,7 +83,8 @@ class PatientResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('sex')
                     ->badge(),
-                Tables\Columns\TextColumn::make('type'),
+                Tables\Columns\TextColumn::make('type')
+                    ->badge(),
                 Tables\Columns\TextColumn::make('date_of_birth')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('age')
@@ -101,6 +101,7 @@ class PatientResource extends Resource
                     ]),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
             ])

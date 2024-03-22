@@ -22,7 +22,8 @@ class AppServiceProvider extends ServiceProvider
             'success' => Color::Green,
             'warning' => Color::Amber,
             'pink' => Color::Pink,
-            'blue' => Color::Blue
+            'blue' => Color::Blue,
+            'white' => Color::hex('#fff')
         ]);
     }
 

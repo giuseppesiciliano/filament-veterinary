@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Enums\PatientSex;
+use App\Enums\PatientType;
+
 
 class Patient extends Model
 {
@@ -35,5 +37,6 @@ class Patient extends Model
 
     protected $casts = [
         'sex' =>  PatientSex::class,
+        'type' => PatientType::class
     ];
 }
