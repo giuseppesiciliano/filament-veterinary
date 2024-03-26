@@ -8,6 +8,7 @@ use App\Models\Patient;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Section;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -26,52 +27,92 @@ class PatientResource extends Resource
 
     protected static ?string $navigationIcon = 'fas-dog';
 
+    public static function getModelLabel(): string
+    {
+        return __('Patient');
+    }
+    public static function getPluralModelLabel(): string
+    {
+        return __('Patients');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
 
-                Forms\Components\Radio::make('sex')
-                    ->options(PatientSex::class),
+                Section::make()
+                ->columns(3)
+                    ->schema([
 
-                Forms\Components\Select::make('type')
-                    ->options(PatientType::class)
-                    ->required(),
+                        FileUpload::make('image')
+                        ->nullable()
+                        ->columnSpan(1)
+                        ->translateLabel(),
 
-                Forms\Components\TextInput::make('microchip')
-                    ->nullable()
-                    ->maxLength(20)
-                    ->unique(),
 
-                Forms\Components\DatePicker::make('date_of_birth')
-                    ->required()
-                    ->reactive()
-                    ->maxDate(now()),
+                        Section::make()
+                            ->columnSpan(1)
+                            ->schema([
+                                Forms\Components\TextInput::make('name')
+                                    ->required()
+                                    ->maxLength(255)
+                                    ->translateLabel(),
+        
+                                Forms\Components\Select::make('type')
+                                    ->options(PatientType::class)
+                                    ->required()
+                                    ->translateLabel(),
+            
+                                Forms\Components\Radio::make('sex')
+                                    ->options(PatientSex::class)
+                                    ->inLine()
+                                    ->inlineLabel(false)
+                                    ->translateLabel(),
+                            ]),
 
-                Forms\Components\Select::make('owner_id')
-                    ->required()
-                    ->relationship('owner', 'name')
-                        ->required()
-                        ->searchable()
-                        ->preload()
-                        ->createOptionForm([
-                            Forms\Components\TextInput::make('name')
-                                ->required()
-                                ->maxLength(255),
-                            Forms\Components\TextInput::make('email')
-                                ->label('Email address')
-                                ->email()
-                                ->required()
-                                ->maxLength(255),
-                            Forms\Components\TextInput::make('phone')
-                                ->label('Phone number')
-                                ->tel()
-                                ->required()
-                        ])
-                        ->required(),
+                        Section::make()
+                            ->columnSpan(1)
+                            ->schema([
+                                Forms\Components\TextInput::make('microchip')
+                                    ->nullable()
+                                    ->maxLength(20)
+                                    ->unique(ignorable: fn ($record) => $record),
+        
+                                Forms\Components\DatePicker::make('date_of_birth')
+                                    ->required()
+                                    ->reactive()
+                                    ->maxDate(now())
+                                    ->translateLabel(),
+            
+
+                                Forms\Components\Select::make('owner_id')
+                                    ->required()
+                                    ->relationship('owner', 'name')
+                                        ->required()
+                                        ->searchable()
+                                        ->preload()
+                                        ->translateLabel()
+                                        ->createOptionForm([
+                                            Forms\Components\TextInput::make('name')
+                                                ->required()
+                                                ->maxLength(255)
+                                                ->translateLabel(),
+                                            Forms\Components\TextInput::make('email')
+                                                ->label('Email address')
+                                                ->email()
+                                                ->required()
+                                                ->maxLength(255)
+                                                ->translateLabel(),
+                                            Forms\Components\TextInput::make('phone')
+                                                ->label('Phone number')
+                                                ->tel()
+                                                ->required()
+                                                ->translateLabel(),
+                                        ])
+                                        ->required(),
+                            ]),
+                    ]),
             ]);
     }
 
@@ -80,25 +121,26 @@ class PatientResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->translateLabel(),
                 Tables\Columns\TextColumn::make('sex')
-                    ->badge(),
+                    ->badge()
+                    ->translateLabel(),
                 Tables\Columns\TextColumn::make('type')
-                    ->badge(),
-                Tables\Columns\TextColumn::make('date_of_birth')
-                    ->sortable(),
+                    ->badge()
+                    ->translateLabel(),
                 Tables\Columns\TextColumn::make('age')
-                    ->suffix(' anni')
+                    ->translateLabel()
+                    ->formatStateUsing( fn (?string $state) => __(':attribute years', ['attribute' => $state]))
                     ->sortable(),
                 Tables\Columns\TextColumn::make('owner.name')
-                    ->searchable(),
+                    ->searchable()
+                    ->translateLabel(),
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('type')
-                    ->options([
-                        'cat' => 'Cat',
-                        'dog' => 'Dog',
-                    ]),
+                    ->options(PatientType::class)
+                    ->translateLabel(),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

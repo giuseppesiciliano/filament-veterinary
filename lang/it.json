@@ -1,0 +1,18 @@
+{
+    "Name": "Nome",
+    "Sex": "Sesso",
+    "Type": "Tipo",
+    "Date of birth": "Data di nascita",
+    "Age": "Età",
+    "Owner": "Proprietario",
+    "Phone": "Telefono",
+    "Image": "Immagine",
+    "Role": "Ruolo",
+    "Dog": "Cane",
+    "Cat": "Gatto",
+    ":attribute years": ":attribute anni",
+    "Patients": "Pazienti",
+    "Patient": "Paziente",
+    "Doctors": "Dottori",
+    "Doctor": "Dottore"
+}

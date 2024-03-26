@@ -27,10 +27,13 @@ class ViewDoctor extends ViewRecord
                         '2xl' => 2,
                     ])
                     ->schema([
-                        TextEntry::make('name'),
-                        TextEntry::make('role'),
+                        TextEntry::make('name')
+                            ->translateLabel(),
+                        TextEntry::make('role')
+                            ->translateLabel(),
                         TextEntry::make('email'),
-                        TextEntry::make('phone'),
+                        TextEntry::make('phone')
+                            ->translateLabel(),
                     ]),
 
                 Tabs::make('Tabs')

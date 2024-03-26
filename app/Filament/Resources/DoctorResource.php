@@ -19,13 +19,23 @@ class DoctorResource extends Resource
 
     protected static ?string $navigationIcon = 'fas-user-doctor';
 
+    public static function getModelLabel(): string
+    {
+        return __('Doctor');
+    }
+    public static function getPluralModelLabel(): string
+    {
+        return __('Doctors');
+    }
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(55),
+                    ->maxLength(55)
+                    ->translateLabel(),
                 Forms\Components\Select::make('role')
                     ->options([
                         'Veterinarian' => 'Veterinarian',
@@ -40,7 +50,8 @@ class DoctorResource extends Resource
                 Forms\Components\TextInput::make('phone')
                     ->required()
                     ->numeric()
-                    ->maxLength(55),
+                    ->maxLength(55)
+                    ->translateLabel(),
             ]);
     }
 
@@ -49,16 +60,25 @@ class DoctorResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->translateLabel(),
                 Tables\Columns\TextColumn::make('role')
-                    ->searchable(),
+                    ->searchable()
+                    ->translateLabel(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('phone')
-                    ->searchable(),
+                    ->searchable()
+                    ->translateLabel(),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('role')
+                ->options([
+                    'veterinarian' => 'Veterinarian',
+                    'surgeon' => 'Surgeon',
+                    'specialist' => 'Specialist',
+                    'technician' => 'Technician'
+                ]),
             ])
             ->actions([
                 Tables\Actions\ViewAction::make(),

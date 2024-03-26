@@ -14,8 +14,8 @@ enum PatientType: string implements HasLabel, HasColor, HasIcon
     public function getLabel(): ?string
     {
         return match ($this) {
-            self::DOG => 'Dog',
-            self::CAT => 'Cat',
+            self::DOG => __('Dog'),
+            self::CAT => __('Cat'),
         };
     }
  

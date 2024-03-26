@@ -13,6 +13,12 @@ use App\Enums\PatientType;
 
 class Patient extends Model
 {
+    protected $casts = [
+        'sex' =>  PatientSex::class,
+        'type' => PatientType::class,
+        'image' => 'array'
+    ];
+    
     public function owner(): BelongsTo
     {
         return $this->belongsTo(Owner::class);
@@ -34,9 +40,4 @@ class Patient extends Model
             get: fn() => Carbon::parse($this->date_of_birth)->age,
         );
     }
-
-    protected $casts = [
-        'sex' =>  PatientSex::class,
-        'type' => PatientType::class
-    ];
 }
